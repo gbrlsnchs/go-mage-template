@@ -92,8 +92,10 @@ func Test() error {
 	if err != nil {
 		return err
 	}
-	flags := strings.Split(os.Getenv("TEST_FLAGS"), " ")
-	args := append([]string{"test"}, flags...)
+	args := []string{"test"}
+	if flags := os.Getenv("TEST_FLAGS"); flags != "" {
+		args = append(args, strings.Split(flags, " ")...)
+	}
 	return sh.Run(goCmd, append(args, filepath.Join(root, "..."))...)
 }
 
